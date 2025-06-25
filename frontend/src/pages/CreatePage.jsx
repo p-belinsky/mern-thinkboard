@@ -1,18 +1,13 @@
-/* eslint-disable no-unused-vars */
-import axios from "axios";
 import { ArrowLeftIcon } from "lucide-react";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router";
 import api from "../lib/axios";
-import RateLimitedUI from "../components/RateLimitedUI";
 import { useAuthStore } from "../store/authStore";
 import { showToast } from "../lib/utils";
 
 const CreatePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [isRateLimited, setIsRateLimited] = useState(false);
 
   const navigate = useNavigate();
   const {isLoading} = useAuthStore();
@@ -29,19 +24,14 @@ const CreatePage = () => {
       navigate("/");
     } catch (error) {
       console.error("Error creating note", error);
-      if (error.response.status === 429) {
-        setIsRateLimited(true);
-      } else {
-        showToast("Failed to create note");
-      }
+      showToast("Failed to create note");
+      
     } 
   };
 
   return (
     <div className="min-h-screen bg-base-200">
-      {isRateLimited && <RateLimitedUI />}
 
-      {!isRateLimited && (
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto mt-5">
             <Link to={"/"} className="btn btn-ghost mb-6">
@@ -96,7 +86,6 @@ const CreatePage = () => {
             </div>
           </div>
         </div>
-      )}
     </div>
   );
 };

@@ -1,11 +1,8 @@
-/* eslint-disable no-unused-vars */
-import axios from "axios";
 import { ArrowLeftIcon } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import api from "../lib/axios";
 import { Trash2Icon } from "lucide-react";
-import RateLimitedUI from "../components/RateLimitedUI";
 import { showToast } from "../lib/utils";
 
 const NoteDetailPage = () => {
@@ -14,7 +11,6 @@ const NoteDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [noteToDelete, setNoteToDelete] = useState(null);
   const [saving, setSaving] = useState(false);
-  const [isRateLimited, setIsRateLimited] = useState(false);
   const dialogRef = useRef(null);
 
   const navigate = useNavigate();
@@ -28,29 +24,23 @@ const NoteDetailPage = () => {
         setContent(res.data.content);
       } catch (error) {
         console.error("Error fetching note", error);
-        if (error.response.status === 429) {
-          setIsRateLimited(true);
-        } else {
-          showToast("Failed to load notes");
-        }
+        showToast("Failed to load notes");
       } finally {
         setLoading(false);
       }
     };
 
     fetchNote();
-  }, []);
+  }, [noteId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-      if (!title || !content) {
+
+    if (!title || !content) {
       showToast("Please fill in all fields");
       return;
     }
     setSaving(true);
-
-
 
     try {
       await api.put(`/notes/${noteId}`, {
@@ -78,10 +68,10 @@ const NoteDetailPage = () => {
 
     try {
       await api.delete(`/notes/${noteToDelete}`);
-      showToast.success("Note deleted successfully!");
+      showToast("Note deleted successfully!");
     } catch (error) {
       console.error("Error deleting note", error);
-      showToast.error("Failed to delete note");
+      showToast("Failed to delete note");
     } finally {
       dialogRef.current?.close();
       setNoteToDelete(null);
@@ -92,12 +82,7 @@ const NoteDetailPage = () => {
   return (
     <>
       <div className="min-h-screen bg-base-200">
-          {isRateLimited && <RateLimitedUI />}
-
-
-
-        {!isRateLimited && (
-                  <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto mt-5">
             <div className="flex justify-between">
               <Link to={"/"} className="btn btn-ghost mb-6">
@@ -160,9 +145,6 @@ const NoteDetailPage = () => {
             </div>
           </div>
         </div>
-        )}
-
-
       </div>
 
       {/* DaisyUI Confirmation Modal */}

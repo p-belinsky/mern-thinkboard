@@ -22,7 +22,6 @@ if(process.env.NODE_ENV !== "production") {
 }
 
 app.use(express.json());
-app.use(rateLimiter);
 app.use(cookieParser());
 
 app.use("/api/notes", notesRoute);
