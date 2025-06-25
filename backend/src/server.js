@@ -3,7 +3,6 @@ import notesRoute from "./routes/note.route.js";
 import authRoute from "./routes/auth.route.js";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
-import rateLimiter from "./middleware/rateLimiter.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
