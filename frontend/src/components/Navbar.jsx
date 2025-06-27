@@ -20,9 +20,9 @@ const Navbar = () => {
           <h1 className="text-3xl font-bold text-primary font-mono tracking-tight">
             ThinkBoard
           </h1>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 ml-4 sm:ml-0">
             <Link to={"/create"} className="btn btn-primary">
-            <PlusIcon className="size-5" />
+            <PlusIcon className="size-4 sm:size-5" />
             <span>New Note</span>
             </Link>
               <button onClick={handleLogout} className="btn btn-ghost text-green-500">
