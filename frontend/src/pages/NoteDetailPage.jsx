@@ -24,7 +24,6 @@ const NoteDetailPage = () => {
         setContent(res.data.content);
       } catch (error) {
         console.error("Error fetching note", error);
-        showToast("Failed to load notes");
       } finally {
         setLoading(false);
       }

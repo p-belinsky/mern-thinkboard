@@ -24,8 +24,7 @@ const HomePage = () => {
         setNotes(res.data);
       } catch (error) {
         console.error("Error fetching notes");
-        showToast("Failed to load notes");
-      
+        
       } finally {
         setIsFetchingNotes(false); // stop fetching
       }
